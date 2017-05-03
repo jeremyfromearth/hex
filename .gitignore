@@ -5,6 +5,9 @@
 *.obj
 *.dSYM/
 
+# Build dirs
+build/
+
 # Precompiled Headers
 *.gch
 *.pch
