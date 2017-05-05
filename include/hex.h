@@ -5,8 +5,7 @@
 #include <stdexcept>
 #include <stdint.h>
 #include <string>
-#include <unordered_map>
-#include <vector>
+#include <unordered_set>
 
 namespace hex {
     enum orientation {
@@ -46,9 +45,25 @@ namespace hex {
         private:
             int32_t x, y, z;
     };
+}
 
-    typedef std::vector<cell> cell_list;
-    typedef std::unordered_map<int32_t, std::unordered_map<int32_t, std::unordered_map<uint32_t, cell>>> cell_map;
+// hash function for hex::cell
+// needs to be placed between cell and grid classes
+// adapted from http://www.redblobgames.com/grids/hexagons/implementation.html#map
+namespace std {
+    template <> struct hash<hex::cell> {
+        size_t operator()(const hex::cell& c) const {
+            hash<int> int_hash;
+            size_t x = int_hash(c.get_x());
+            size_t y = int_hash(c.get_y());
+            return x ^ (y + 0x9e3779b9 + (x << 6) + (x >> 2));
+        }
+    };
+}
+
+namespace hex {
+    typedef std::unordered_set<cell> cell_list;
+
     class grid {
 
         public:
@@ -62,7 +77,7 @@ namespace hex {
 
             grid();
 
-            void add_cells(cell_list new_cells, float probability);
+            void add(cell_list& new_cells, float probability = 1.0f);
 
             bool contains(cell c);
 
@@ -80,7 +95,6 @@ namespace hex {
 
         private:
             cell_list cells;
-            cell_map lookup;
             float cell_radius;
             orientation orientation;
 
@@ -88,6 +102,18 @@ namespace hex {
     };
 
     class layout {
+        enum options {
+            standard,
+            flipped, 
+            vertical
+        };
 
+        static cell_list hexagonal(size_t radius);
+
+        static cell_list grid(int width, int height);
+
+        static cell_list parallelogram(int width, int height, options option = options::standard);
+
+        static cell_list triangular(int base_width, options option = options::standard);
     };
 }

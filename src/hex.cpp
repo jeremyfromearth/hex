@@ -2,6 +2,8 @@
 
 using namespace hex;
 
+
+
 // ------------------------------------------------------------
 //
 // cell
@@ -50,3 +52,12 @@ grid::grid() {
     orientation = orientation::sharp;
 }
 
+void grid::add(cell_list& new_cells, float probability) {
+    /*
+    for(auto & c : new_cells) {
+        uint32_t x = c.get_x();
+        uint32_t y = c.get_y();
+        uint32_t z = c.get_z();
+    }
+    */
+}
