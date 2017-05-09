@@ -93,6 +93,10 @@ namespace hex {
 
             cell point_to_hex(point p);
 
+            grid print(std::ostream&) const {
+                return *this;
+            }
+
         private:
             cell_list cells;
             float cell_radius;

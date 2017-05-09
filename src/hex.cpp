@@ -39,7 +39,7 @@ uint32_t cell::distance(const cell& other) {
 }
 
 std::string cell::to_string() {
-    return "Cell(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+    return "cell(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
 }
 
 // ------------------------------------------------------------
