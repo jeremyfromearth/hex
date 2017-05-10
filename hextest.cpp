@@ -32,6 +32,8 @@ int main() {
     assert((c2 + c3) == c4);
     assert((c3 - c2) == cell(-1, 2, -1));
     assert((c4 * 0.5) == cell(-2, 1 , 1));
+    assert(c1.distance(c4) == 3);
+    assert(c3.distance(c4) == 1);
 
     std::cout << "\ngrid() tests" << std::endl;
 

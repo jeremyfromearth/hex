@@ -1,7 +1,7 @@
 #pragma once
 
-#include <math.h>
-#include <random>
+#include <cmath>
+#include <cstdlib>
 #include <stdlib.h>
 #include <stdexcept>
 #include <stdint.h>
@@ -17,6 +17,9 @@ namespace hex {
 
     class cell  { 
     public:
+
+        static cell round(float x, float y, float z);
+
         enum orientation {
             flat, 
             sharp
@@ -82,7 +85,7 @@ namespace hex {
 
             static grid get_neighbor(cell& c);
 
-            static cell round(uint32_t x, uint32_t y, uint32_t z);
+            //static cell round(uint32_t x, uint32_t y, uint32_t z);
 
             grid();
 

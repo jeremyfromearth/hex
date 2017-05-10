@@ -8,6 +8,26 @@ using namespace hex;
 //
 // ------------------------------------------------------------
 
+cell cell::round(float x, float y, float z) {
+    int xr = std::round(x);
+    int yr = std::round(y);
+    int zr = std::round(z);
+
+    int xd = std::abs(x - xr);
+    int yd = std::abs(y - yr);
+    int zd = std::abs(z - zr);
+
+    if(xd > yd && xd > zd) {
+	xr = -yr - zr;
+    } else if(yd > zd) {
+	yr = -xr - zr;
+    } else {
+	zr = -xr - yr;
+    }
+
+    return cell(xr, yr, zr);
+}
+
 cell::cell() : x(0), y(0), z(0) {}
 
 cell::cell(int32_t _x, int32_t _y, int32_t _z)
@@ -24,7 +44,7 @@ cell cell::operator-(const cell& rhs) const {
 }
 
 cell cell::operator*(float scalar) const {
-    return cell(round(x * scalar), round(y * scalar), round(z * scalar));
+    return cell(std::round(x * scalar), std::round(y * scalar), std::round(z * scalar));
 }
 
 bool cell::operator==(const cell& rhs) const {
@@ -32,7 +52,7 @@ bool cell::operator==(const cell& rhs) const {
 }
 
 uint32_t cell::distance(const cell& other) {
-    return floor((abs(x - other.get_x()) + abs(y - other.get_y()) + abs(z - other.get_z())) / 2);
+    return (std::abs(x - other.get_x()) + std::abs(y - other.get_y()) + std::abs(z - other.get_z())) / 2;
 }
 
 std::string cell::to_string() {
