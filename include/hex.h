@@ -9,107 +9,106 @@
 #include <unordered_set>
 #include <vector>
 
-namespace hexgrid {
-    enum orientation {
-        flat, 
-        sharp
-    };
-
+namespace hex {
     struct point {
         float x;
         float y;
     };
 
-    class hex  { 
-        public:
-            hex();
+    class cell  { 
+    public:
+        enum orientation {
+            flat, 
+            sharp
+        };
 
-            hex(int32_t _x, int32_t _y, int32_t _z);
-            
-            hex operator+(const hex& rhs) const;
+        cell();
 
-            hex operator-(const hex& rhs) const;
+        cell(int32_t _x, int32_t _y, int32_t _z);
+        
+        cell operator+(const cell& rhs) const;
 
-            hex operator*(float scalar) const;
+        cell operator-(const cell& rhs) const;
 
-            bool operator==(const hex& rhs) const;
+        cell operator*(float scalar) const;
 
-            uint32_t distance(const hex& other);
+        bool operator==(const cell& rhs) const;
 
-            int32_t get_x() const { return x; }
+        uint32_t distance(const cell& other);
 
-            int32_t get_y() const { return y; }
+        int32_t get_x() const { return x; }
 
-            int32_t get_z() const { return z; }
+        int32_t get_y() const { return y; }
 
-            std::string to_string();
+        int32_t get_z() const { return z; }
 
-        private:
-            int32_t x, y, z;
+        std::string to_string();
+
+    private:
+        int32_t x, y, z;
     };
 }
 
-// hash function for hexgrid::hex
-// needs to be placed between hex and grid classes
+// hash function for hex::cell
+// needs to be placed between cell and grid classes
 // adapted from http://www.redblobgames.com/grids/hexagons/implementation.html#map
 namespace std {
-    template <> struct hash<hexgrid::hex> {
-        size_t operator()(const hexgrid::hex& h) const {
+    template <> struct hash<hex::cell> {
+        size_t operator()(const hex::cell& c) const {
             hash<int> int_hash;
-            size_t x = int_hash(h.get_x());
-            size_t y = int_hash(h.get_y());
+            size_t x = int_hash(c.get_x());
+            size_t y = int_hash(c.get_y());
             return x ^ (y + 0x9e3779b9 + (x << 6) + (x >> 2));
         }
     };
 }
 
-namespace hexgrid {
-    typedef std::unordered_set<hex> hexset; 
-    class grid : public std::unordered_set<hex> {
-
+namespace hex {
+    class grid : public std::unordered_set<cell> {
         public:
-            static std::vector<hex>& neighbors() {
-                static std::vector<hex> hexes = {
-                    hex(1, 0, -1), hex(1, -1, 0), hex(0, -1, 1),
-                    hex(-1, 0, 1), hex(-1, 1, 0), hex(0, 1, -1)
+            static std::vector<cell>& neighbors() {
+                static std::vector<cell> cells = {
+                    cell(1, 0, -1), cell(1, -1, 0), cell(0, -1, 1),
+                    cell(-1, 0, 1), cell(-1, 1, 0), cell(0, 1, -1)
                 };
-                return hexes;
+                return cells;
             };
 
-            static point hex_to_point(hex& h);
+            static point hex_to_point(cell& h);
 
-            static hex point_to_hex(point& p);
+            static cell point_to_hex(point& p);
 
-            static hexset get_neighbors(hex& h);
+            static grid get_neighbors(cell& c);
 
-            static hexset get_neighbor(hex& h);
+            static grid get_neighbor(cell& c);
 
-            static hex round_hex(uint32_t x, uint32_t y, uint32_t z);
+            static cell round(uint32_t x, uint32_t y, uint32_t z);
 
             grid();
 
-            void set_radius(float new_radius);
+            //void set_radius(float new_radius);
 
-            void set_orientation(orientation new_orientation);
+            //void set_orientation(orientation new_orientation);
 
         private:
             float radius;
-            orientation orientation;
-    };
-
-    class layout {
-        enum options {
-            standard,
-            flipped, 
-            vertical
+            cell::orientation orientation;
         };
 
-        static hexset hexagonal(size_t radius);
+    class layout {
+        public:
+            enum options {
+                standard,
+                flipped, 
+                vertical
+            };
 
-        static hexset grid(int width, int height);
+            static grid hexagonal(size_t radius);
 
-        static hexset parallelogram(int width, int height, options option = options::standard);
+            static grid rectangular(int width, int height);
 
-        static hexset triangular(int base_width, options option = options::standard);
+            static grid parallel(int width, int height, options option = options::standard);
+
+            static grid triangular(int base_width, options option = options::standard);
     };
 }
