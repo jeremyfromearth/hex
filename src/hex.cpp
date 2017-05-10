@@ -1,45 +1,43 @@
 #include "hex.h"
 
-using namespace hex;
-
-
+using namespace hexgrid;
 
 // ------------------------------------------------------------
 //
-// cell
+// hex
 //
 // ------------------------------------------------------------
 
-cell::cell()
+hex::hex()
     : x(0), y(0), z(0) {}
 
-cell::cell(int32_t _x, int32_t _y, int32_t _z)
+hex::hex(int32_t _x, int32_t _y, int32_t _z)
     : x(_x), y(_y), z(_z) {
-    if(x + y + z != 0) throw(std::runtime_error("Invalid hex::cell"));
+    if(x + y + z != 0) throw(std::runtime_error("Invalid hex::hex"));
 }
 
-cell cell::operator+(const cell& rhs) const {
-    return cell(x + rhs.get_x(), y + rhs.get_y(), z + rhs.get_z());
+hex hex::operator+(const hex& rhs) const {
+    return hex(x + rhs.get_x(), y + rhs.get_y(), z + rhs.get_z());
 }
 
-cell cell::operator-(const cell& rhs) const {
-    return cell(x - rhs.get_x(), y - rhs.get_y(), z - rhs.get_z());
+hex hex::operator-(const hex& rhs) const {
+    return hex(x - rhs.get_x(), y - rhs.get_y(), z - rhs.get_z());
 }
 
-cell cell::operator*(float scalar) const {
-    return cell(round(x * scalar), round(y * scalar), round(z * scalar));
+hex hex::operator*(float scalar) const {
+    return hex(round(x * scalar), round(y * scalar), round(z * scalar));
 }
 
-bool cell::operator==(const cell& rhs) const {
+bool hex::operator==(const hex& rhs) const {
     return x == rhs.get_x() && y == rhs.get_y() && z == rhs.get_z();
 }
 
-uint32_t cell::distance(const cell& other) {
+uint32_t hex::distance(const hex& other) {
     return floor((abs(x - other.get_x()) + abs(y - other.get_y()) + abs(z - other.get_z())) / 2);
 }
 
-std::string cell::to_string() {
-    return "cell(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+std::string hex::to_string() {
+    return "hex(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
 }
 
 // ------------------------------------------------------------
@@ -50,14 +48,4 @@ std::string cell::to_string() {
 
 grid::grid() {
     orientation = orientation::sharp;
-}
-
-void grid::add(cell_list& new_cells, float probability) {
-    /*
-    for(auto & c : new_cells) {
-        uint32_t x = c.get_x();
-        uint32_t y = c.get_y();
-        uint32_t z = c.get_z();
-    }
-    */
 }
