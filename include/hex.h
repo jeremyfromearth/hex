@@ -10,20 +10,10 @@
 #include <vector>
 
 namespace hex {
-    struct point {
-        float x;
-        float y;
-    };
-
     class cell  { 
     public:
 
         static cell round(float x, float y, float z);
-
-        enum orientation {
-            flat, 
-            sharp
-        };
 
         cell();
 
@@ -53,7 +43,7 @@ namespace hex {
 }
 
 // hash function for hex::cell
-// needs to be placed between cell and grid classes
+// needs to be placed between cell and lattice classes
 // adapted from http://www.redblobgames.com/grids/hexagons/implementation.html#map
 namespace std {
     template <> struct hash<hex::cell> {
@@ -67,7 +57,17 @@ namespace std {
 }
 
 namespace hex {
-    class grid : public std::unordered_set<cell> {
+    struct point {
+        float x;
+        float y;
+    };
+
+    enum orientation {
+        flat, 
+        sharp
+    };
+
+    class lattice : public std::unordered_set<cell> {
         public:
             static std::vector<cell>& neighbors() {
                 static std::vector<cell> cells = {
@@ -77,25 +77,15 @@ namespace hex {
                 return cells;
             };
 
-            static point hex_to_point(cell& h);
+            static point cell_to_point(cell& c, orientation o, float r);
 
-            static cell point_to_hex(point& p);
+            static cell point_to_cell(point& p, orientation o, float r);
 
-            static grid get_neighbors(cell& c);
+            static lattice get_neighbors(cell& c);
 
-            static grid get_neighbor(cell& c);
+            static lattice get_neighbor(cell& c, uint8_t side);
 
-            //static cell round(uint32_t x, uint32_t y, uint32_t z);
-
-            grid();
-
-            //void set_radius(float new_radius);
-
-            //void set_orientation(orientation new_orientation);
-
-        private:
-            float radius;
-            cell::orientation orientation;
+            static cell round(uint32_t x, uint32_t y, uint32_t z);
         };
 
     class layout {
@@ -106,12 +96,12 @@ namespace hex {
                 vertical
             };
 
-            static grid hexagonal(size_t radius);
+            static lattice hexagonal(size_t radius);
 
-            static grid rectangular(int width, int height);
+            static lattice rectangular(int width, int height);
 
-            static grid parallel(int width, int height, options option = options::standard);
+            static lattice parallel(int width, int height, options option = options::standard);
 
-            static grid triangular(int base_width, options option = options::standard);
+            static lattice triangular(int base_width, options option = options::standard);
     };
 }

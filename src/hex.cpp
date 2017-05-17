@@ -61,10 +61,33 @@ std::string cell::to_string() {
 
 // ------------------------------------------------------------
 //
-// grid
+// lattice
 //
 // ------------------------------------------------------------
 
-grid::grid() {
-    orientation = cell::orientation::sharp;
+point lattice::cell_to_point(cell& c, orientation o, float r) {
+    float x = 0;
+    float y = 0;
+    switch(o) {
+	case orientation::flat:
+	    x = r * (3.0/2.0) * c.get_x();
+	    y = r * sqrt(3.0) * (c.get_y() + c.get_x() * 0.5);
+	    break;
+	case orientation::sharp:
+	    x = r * sqrt(3.0) * (c.get_x() + c.get_y() * 0.5);
+	    y = r * 3.0/2.0 * c.get_y();
+	    break;
+    }
+
+    return {x, y};
 }
+
+static cell point_to_cell(point& p, orientation o, float r);
+
+/*
+static lattice get_neighbors(cell& c);
+
+static lattice get_neighbor(cell& c, uint8_t side);
+
+static cell round(uint32_t x, uint32_t y, uint32_t z);
+*/

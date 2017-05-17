@@ -35,13 +35,20 @@ int main() {
     assert(c1.distance(c4) == 3);
     assert(c3.distance(c4) == 1);
 
-    std::cout << "\ngrid() tests" << std::endl;
+    std::cout << "\nlattice() tests" << std::endl;
 
-    grid g;
-    g.insert({cell(0, 0, 0), cell(-1, 0, 1), cell(-1, 1, 0)});
-    assert(g.count(cell(0, 0, 0)) != 0);
-    assert(g.count(cell(1, 1, -2)) == 0);
-    assert(g.count(c4) == 0);
+    lattice l;
+    l.insert({cell(0, 0, 0), cell(-1, 0, 1), cell(-1, 1, 0)});
+    assert(l.count(cell(0, 0, 0)) != 0);
+    assert(l.count(cell(1, 1, -2)) == 0);
+    assert(l.count(c4) == 0);
+
+    float r = 32;
+    orientation o = orientation::flat;
+    point p = lattice::cell_to_point(c1, o, r);
+    assert(p.x == 0);
+    assert(p.y == 0);
+    //p = lattice::cell_to_point
 
     return 0;
 }
