@@ -85,7 +85,7 @@ namespace hex {
 
             static cell point_to_cell(point& p, orientation o, float r);
 
-            static lattice get_neighbors(cell& c);
+            static std::unordered_set<cell> get_neighbors(cell& c);
 
             static lattice get_neighbor(cell& c, uint8_t side);
 

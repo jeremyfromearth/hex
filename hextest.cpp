@@ -49,7 +49,23 @@ int main() {
     point p = lattice::cell_to_point(c1, o, r);
     assert(p.x == 0);
     assert(p.y == 0);
-    //p = lattice::cell_to_point
+
+    std::unordered_set<cell> expectation = {
+        cell(1, 0, -1), cell(1, -1, 0), cell(0, -1, 1),
+        cell(-1, 0, 1), cell(-1, 1, 0), cell(0, 1, -1)
+    };
+
+    std::unordered_set<cell> result = l.get_neighbors(c1);
+    assert(result == expectation);
+
+    cell center_cell = cell(-2, 2, 0);
+    expectation = {
+        cell(-1, 2, -1), cell(-1, 1, 0), cell(-2, 1, 1),
+        cell(-3, 2, 1), cell(-3, 3, 0), cell(-2, 3, -1)
+    };
+
+    result = l.get_neighbors(center_cell);
+    assert(result == expectation);
 
     return 0;
 }

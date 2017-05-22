@@ -95,10 +95,18 @@ cell point_to_cell(point& p, orientation o, float r) {
     return {x, y, -x-y};
 }
 
+
+std::unordered_set<cell> lattice::get_neighbors(cell& c) {
+    std::unordered_set<cell> result;
+    for(size_t i = 0; i < neighbors().size(); i++) {
+        result.emplace(c + neighbors()[i]);
+    }
+
+    return result;
+}
+
+//static lattice get_neighbor(cell& c, uint8_t side);
+
 /*
-static lattice get_neighbors(cell& c);
-
-static lattice get_neighbor(cell& c, uint8_t side);
-
 static cell round(uint32_t x, uint32_t y, uint32_t z);
 */
