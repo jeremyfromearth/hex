@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 #include <stdlib.h>
 #include <stdexcept>
 #include <stdint.h>
@@ -35,12 +36,14 @@ namespace hex {
 
         int32_t get_z() const { return z; }
 
-        std::string to_string();
-
     private:
         int32_t x, y, z;
     };
+
 }
+
+std::ostream& operator<<(std::ostream& os, hex::cell const& c);
+
 
 // hash function for hex::cell
 // needs to be placed between cell and lattice classes
@@ -55,6 +58,7 @@ namespace std {
         }
     };
 }
+
 
 namespace hex {
     struct point {

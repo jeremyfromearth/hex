@@ -55,8 +55,9 @@ uint32_t cell::distance(const cell& other) {
     return (std::abs(x - other.get_x()) + std::abs(y - other.get_y()) + std::abs(z - other.get_z())) / 2;
 }
 
-std::string cell::to_string() {
-    return "cell(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+std::ostream& operator<<(std::ostream& os, cell const& c) {
+   os << "cell(" << std::to_string(c.get_x()) << ", " + std::to_string(c.get_y()) << ", " + std::to_string(c.get_z()) << ")";
+   return os;
 }
 
 // ------------------------------------------------------------
@@ -68,21 +69,31 @@ std::string cell::to_string() {
 point lattice::cell_to_point(cell& c, orientation o, float r) {
     float x = 0;
     float y = 0;
-    switch(o) {
-	case orientation::flat:
-	    x = r * (3.0/2.0) * c.get_x();
-	    y = r * sqrt(3.0) * (c.get_y() + c.get_x() * 0.5);
-	    break;
-	case orientation::sharp:
-	    x = r * sqrt(3.0) * (c.get_x() + c.get_y() * 0.5);
-	    y = r * 3.0/2.0 * c.get_y();
-	    break;
+    if(o == orientation::flat) {
+        x = r * (3.0/2.0) * c.get_x();
+        y = r * sqrt(3.0) * (c.get_y() + c.get_x() * 0.5);
+    } else {
+        x = r * sqrt(3.0) * (c.get_x() + c.get_y() * 0.5);
+        y = r * 3.0/2.0 * c.get_y();
     }
 
     return {x, y};
 }
 
-static cell point_to_cell(point& p, orientation o, float r);
+cell point_to_cell(point& p, orientation o, float r) {
+    int x = 0;
+    int y = 0;
+    
+    if(o == orientation::flat) {
+   	x = p.x * 2/3 / r;
+        y = (-p.x / 3 + sqrt(3)/3 * p.y) / r; 
+    } else {
+	x = (p.x * sqrt(3)/3 - y / 3) / r;
+        y = p.y * 2/3 / r;
+    }
+
+    return {x, y, -x-y};
+}
 
 /*
 static lattice get_neighbors(cell& c);

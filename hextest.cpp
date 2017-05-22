@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <iostream>
 #include <stdio.h>
+
 #include "hex.h"
 
 using namespace hex;
@@ -21,13 +22,13 @@ int main() {
     cell c4(-3, 2, 1); 
 
     std::cout << "cell() tests" << std::endl;
-    std::cout << "c1: " << c1.to_string() << std::endl;
-    std::cout << "c2: " << c2.to_string() << std::endl;
-    std::cout << "c3: " << c3.to_string() << std::endl;
-    std::cout << "c4: " << c4.to_string() << std::endl;
-    std::cout << "c2 + c3: " << (c2 + c3).to_string() << std::endl;
-    std::cout << "c4 * 0.5: " << (c4 * 0.5).to_string() << std::endl;
-    std::cout << "c3 - c2: " << (c3 - c2).to_string() << std::endl;
+    std::cout << "c1: " << c1 << std::endl;
+    std::cout << "c2: " << c2 << std::endl;
+    std::cout << "c3: " << c3 << std::endl;
+    std::cout << "c4: " << c4 << std::endl;
+    std::cout << "c2 + c3: " << (c2 + c3) << std::endl;
+    std::cout << "c4 * 0.5: " << (c4 * 0.5) << std::endl;
+    std::cout << "c3 - c2: " << (c3 - c2) << std::endl;
 
     assert((c2 + c3) == c4);
     assert((c3 - c2) == cell(-1, 2, -1));
