@@ -67,5 +67,16 @@ int main() {
     result = l.get_neighbors(center_cell);
     assert(result == expectation);
 
+    center_cell = cell(0, 0, 0);
+    cell c5 = l.get_neighbor(center_cell, 2);
+    assert(c5 == cell(-1, 0, 1));
+
+    try {
+        l.get_neighbor(center_cell, 8);
+    } catch(std::runtime_error e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "Caught runtime error, as expected" << std::endl;
+    }
+
     return 0;
 }

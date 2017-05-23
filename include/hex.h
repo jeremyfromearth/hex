@@ -71,12 +71,12 @@ namespace hex {
         sharp
     };
 
-    class lattice : public std::unordered_set<cell> {
+    class lattice: public std::unordered_set<cell> {
         public:
             static std::vector<cell>& neighbors() {
                 static std::vector<cell> cells = {
-                    cell(1, 0, -1), cell(1, -1, 0), cell(0, -1, 1),
-                    cell(-1, 0, 1), cell(-1, 1, 0), cell(0, 1, -1)
+                    cell(1, -1, 0), cell(0, -1, 1), cell(-1, 0, 1), 
+                    cell(-1, 1, 0), cell(0, 1, -1), cell(1, 0, -1), 
                 };
                 return cells;
             };
@@ -87,7 +87,7 @@ namespace hex {
 
             static std::unordered_set<cell> get_neighbors(cell& c);
 
-            static lattice get_neighbor(cell& c, uint8_t side);
+            static cell get_neighbor(cell& c, uint8_t side);
 
             static cell round(uint32_t x, uint32_t y, uint32_t z);
         };

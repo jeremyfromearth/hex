@@ -95,7 +95,6 @@ cell point_to_cell(point& p, orientation o, float r) {
     return {x, y, -x-y};
 }
 
-
 std::unordered_set<cell> lattice::get_neighbors(cell& c) {
     std::unordered_set<cell> result;
     for(size_t i = 0; i < neighbors().size(); i++) {
@@ -105,7 +104,10 @@ std::unordered_set<cell> lattice::get_neighbors(cell& c) {
     return result;
 }
 
-//static lattice get_neighbor(cell& c, uint8_t side);
+cell lattice::get_neighbor(cell& c, uint8_t side) {
+    if(side > 5) throw std::runtime_error("Attempt to get neighbor " + std::to_string(side) + " out of range");
+    return c + lattice::neighbors().at(side);
+}
 
 /*
 static cell round(uint32_t x, uint32_t y, uint32_t z);
