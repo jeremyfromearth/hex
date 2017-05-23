@@ -80,7 +80,7 @@ point lattice::cell_to_point(cell& c, orientation o, float r) {
     return {x, y};
 }
 
-cell point_to_cell(point& p, orientation o, float r) {
+cell lattice::point_to_cell(point& p, orientation o, float r) {
     int x = 0;
     int y = 0;
     
@@ -109,6 +109,21 @@ cell lattice::get_neighbor(cell& c, uint8_t side) {
     return c + lattice::neighbors().at(side);
 }
 
-/*
-static cell round(uint32_t x, uint32_t y, uint32_t z);
-*/
+// ------------------------------------------------------------
+//
+// layout
+//
+// ------------------------------------------------------------
+
+lattice layout::hexagonal(size_t radius) {
+    lattice result;
+    for (size_t x = -radius; x <= radius; x++) {
+	uint32_t y1 = std::max(-radius, -x - radius);
+	uint32_t y2 = std::min(radius, -x + radius);
+	for (size_t y = y1; y <= y2; y++) {
+	    result.emplace(cell(x, y, -x-y));
+	}
+    }
+
+    return result;
+}

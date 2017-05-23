@@ -88,8 +88,6 @@ namespace hex {
             static std::unordered_set<cell> get_neighbors(cell& c);
 
             static cell get_neighbor(cell& c, uint8_t side);
-
-            static cell round(uint32_t x, uint32_t y, uint32_t z);
         };
 
     class layout {
