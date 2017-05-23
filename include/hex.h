@@ -34,12 +34,12 @@ namespace hex {
         }
 
         static std::vector<point> sharp_vertices() {
-            float theta = 0.0f;
     	    float inc = M_PI / 3.0f;
+            float theta = inc * 0.5;
             static std::vector<point> vertices;
             for(size_t i = 0; i < 6; i++) {
-                theta += inc;
                 vertices.push_back({std::cos(theta), std::sin(theta)});
+                theta += inc;
             } 
 
             return vertices;

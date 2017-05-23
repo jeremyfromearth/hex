@@ -6,31 +6,41 @@
 using namespace ci;
 using namespace ci::app;
 using namespace std;
+using namespace hex;
 
 class HexGridExampleApp : public App {
-  public:
+public:
 	void setup() override;
-	void mouseDown( MouseEvent event ) override;
-	void update() override;
 	void draw() override;
-    hex::cell c;
+    
+private:
+    lattice l;
+    void draw_hex(cell c, float cell_radius, orientation o);
 };
 
-void HexGridExampleApp::setup()
-{
+void HexGridExampleApp::draw_hex(cell c, float cell_radius, orientation o) {
+    gl::begin(GL_LINE_LOOP);
+    point p = lattice::cell_to_point(c, o, cell_radius);
+    std::vector<point> vertices = o == orientation::flat ? cell::flat_vertices() : cell::sharp_vertices();
+    for(auto vertex : vertices) {
+        gl::vertex(p.x + vertex.x * cell_radius, p.y + vertex.y * cell_radius);
+    }
+    gl::end();
 }
 
-void HexGridExampleApp::mouseDown( MouseEvent event )
-{
+void HexGridExampleApp::setup() {
+    l = hex::layout::hexagonal(3);
 }
 
-void HexGridExampleApp::update()
-{
+void HexGridExampleApp::draw() {
+    gl::pushMatrices();
+    gl::translate(getWindowCenter());
+	gl::clear(Color( 1, 1, 1 ));
+    gl::color(Color(0.1, 0.1, 0.4));
+    for(auto c : l) {
+        draw_hex(c, 32, orientation::flat);
+    }
+    gl::popMatrices();
 }
 
-void HexGridExampleApp::draw()
-{
-	gl::clear( Color( 0, 0, 0 ) ); 
-}
-
-CINDER_APP( HexGridExampleApp, RendererGl )
+CINDER_APP(HexGridExampleApp, RendererGl)
