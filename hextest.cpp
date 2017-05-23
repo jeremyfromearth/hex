@@ -64,19 +64,22 @@ int main() {
         cell(-3, 2, 1), cell(-3, 3, 0), cell(-2, 3, -1)
     };
 
-    result = l.get_neighbors(center_cell);
+    result = lattice::get_neighbors(center_cell);
     assert(result == expectation);
 
     center_cell = cell(0, 0, 0);
-    cell c5 = l.get_neighbor(center_cell, 2);
+    cell c5 = lattice::get_neighbor(center_cell, 2);
     assert(c5 == cell(-1, 0, 1));
 
     try {
-        l.get_neighbor(center_cell, 8);
+        lattice::get_neighbor(center_cell, 8);
     } catch(std::runtime_error e) {
         std::cout << e.what() << std::endl;
         std::cout << "Caught runtime error, as expected" << std::endl;
     }
+
+    // layouts
+    result = layout::hexagonal(3);
 
     return 0;
 }

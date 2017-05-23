@@ -11,10 +11,39 @@
 #include <vector>
 
 namespace hex {
+    struct point {
+        float x;
+        float y;
+    };
+
     class cell  { 
     public:
 
         static cell round(float x, float y, float z);
+
+        static std::vector<point> flat_vertices() {
+            float theta = 0.0f;
+    	    float inc = M_PI / 3.0f;
+            static std::vector<point> vertices;
+            for(size_t i = 0; i < 6; i++) {
+                vertices.push_back({std::cos(theta), std::sin(theta)});
+                theta += inc;
+            } 
+
+            return vertices;
+        }
+
+        static std::vector<point> sharp_vertices() {
+            float theta = 0.0f;
+    	    float inc = M_PI / 3.0f;
+            static std::vector<point> vertices;
+            for(size_t i = 0; i < 6; i++) {
+                theta += inc;
+                vertices.push_back({std::cos(theta), std::sin(theta)});
+            } 
+
+            return vertices;
+        }
 
         cell();
 
@@ -61,10 +90,7 @@ namespace std {
 
 
 namespace hex {
-    struct point {
-        float x;
-        float y;
-    };
+    
 
     enum orientation {
         flat, 
@@ -98,7 +124,7 @@ namespace hex {
                 vertical
             };
 
-            static lattice hexagonal(size_t radius);
+            static lattice hexagonal(int radius);
 
             static lattice rectangular(int width, int height);
 

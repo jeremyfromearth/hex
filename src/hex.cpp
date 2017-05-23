@@ -115,12 +115,12 @@ cell lattice::get_neighbor(cell& c, uint8_t side) {
 //
 // ------------------------------------------------------------
 
-lattice layout::hexagonal(size_t radius) {
+lattice layout::hexagonal(int radius) {
     lattice result;
-    for (size_t x = -radius; x <= radius; x++) {
-	uint32_t y1 = std::max(-radius, -x - radius);
-	uint32_t y2 = std::min(radius, -x + radius);
-	for (size_t y = y1; y <= y2; y++) {
+    for (int x = -radius; x <= radius; x++) {
+	int y1 = std::max(-radius, -x - radius);
+	int y2 = std::min(radius, -x + radius);
+	for (int y = y1; y <= y2; y++) {
 	    result.emplace(cell(x, y, -x-y));
 	}
     }
