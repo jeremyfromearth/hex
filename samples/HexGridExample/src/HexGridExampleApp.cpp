@@ -29,7 +29,8 @@ void HexGridExampleApp::draw_hex(cell c, float cell_radius, orientation o) {
 }
 
 void HexGridExampleApp::setup() {
-    l = hex::layout::hexagonal(3);
+    //l = hex::layout::hexagonal(3);
+    l = hex::layout::rectangular(10, 5);
 }
 
 void HexGridExampleApp::draw() {
@@ -38,7 +39,7 @@ void HexGridExampleApp::draw() {
 	gl::clear(Color( 1, 1, 1 ));
     gl::color(Color(0.1, 0.1, 0.4));
     for(auto c : l) {
-        draw_hex(c, 32, orientation::flat);
+        draw_hex(c, 10, orientation::sharp);
     }
     gl::popMatrices();
 }

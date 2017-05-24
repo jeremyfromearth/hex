@@ -127,3 +127,14 @@ lattice layout::hexagonal(int radius) {
 
     return result;
 }
+
+lattice layout::rectangular(int width, int height) {
+    lattice result;
+    for (int y = 0; y < height; y++) {
+        int32_t y_offset = y >> 1;
+        for (int x = -y_offset; x < width - y_offset; x++) {
+            result.emplace(cell(x, y, -x-y));
+        }
+    }
+    return result;  
+}
