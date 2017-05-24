@@ -15,13 +15,13 @@ public:
     
 private:
     lattice l;
-    void draw_hex(cell c, float cell_radius, orientation o);
+    void draw_hex(GLenum mode, cell c, float cell_radius, orientation o);
 };
 
-void HexGridExampleApp::draw_hex(cell c, float cell_radius, orientation o) {
-    gl::begin(GL_LINE_LOOP);
+void HexGridExampleApp::draw_hex(GLenum mode, cell c, float cell_radius, orientation o) {
     point p = lattice::cell_to_point(c, o, cell_radius);
-    std::vector<point> vertices = o == orientation::flat ? cell::flat_vertices() : cell::sharp_vertices();
+    std::vector<point> vertices = o == orientation::flat ? cell::flat_vertices : cell::sharp_vertices;
+    gl::begin(mode);
     for(auto vertex : vertices) {
         gl::vertex(p.x + vertex.x * cell_radius, p.y + vertex.y * cell_radius);
     }
@@ -29,19 +29,24 @@ void HexGridExampleApp::draw_hex(cell c, float cell_radius, orientation o) {
 }
 
 void HexGridExampleApp::setup() {
-    //l = hex::layout::hexagonal(3);
-    l = hex::layout::rectangular(10, 5);
+    l = hex::layout::hexagonal(3);
 }
 
 void HexGridExampleApp::draw() {
-    gl::pushMatrices();
+    gl::clear(Color(0, 0, 0));
+    gl::ScopedMatrices matrix;
     gl::translate(getWindowCenter());
-	gl::clear(Color( 1, 1, 1 ));
-    gl::color(Color(0.1, 0.1, 0.4));
-    for(auto c : l) {
-        draw_hex(c, 10, orientation::sharp);
+    gl::ScopedBlendAlpha alpha;
+    
+    gl::ScopedColor color1(0.25, 0.9, 0.95, 0.2);
+    for(auto const& c : l) {
+        draw_hex(GL_TRIANGLE_FAN, c, 16, orientation::sharp);
     }
-    gl::popMatrices();
+    
+    gl::ScopedColor color2(0.25, 0.9, 0.95, 1.0);
+    for(auto const& c : l) {
+        draw_hex(GL_LINE_LOOP, c, 16, orientation::sharp);
+    }
 }
 
 CINDER_APP(HexGridExampleApp, RendererGl)
