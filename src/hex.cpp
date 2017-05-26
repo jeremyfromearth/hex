@@ -160,3 +160,21 @@ lattice layout::rectangular(int width, int height) {
     }
     return result;  
 }
+
+lattice layout::parallelogram(int width, int height, options direction) {
+    lattice result;
+    int w = width * 0.5;
+    int h = height * 0.5;
+
+    for (int x = -w; x <= w; x++) {
+        for (int y = -h; y <= h; y++) {
+            if(direction == options::standard)
+                result.emplace(cell(x, y, -x-y));
+            if(direction == options::flipped)
+                result.emplace(cell(-x-y, x, y));
+            if(direction == options::vertical)
+                result.emplace(cell(x, -x-y, y));
+        }
+    }
+    return result;
+}

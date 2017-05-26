@@ -108,7 +108,7 @@ namespace hex {
 
             static lattice rectangular(int width, int height);
 
-            static lattice parallel(int width, int height, options option = options::standard);
+            static lattice parallelogram(int width, int height, options direction = options::standard);
 
             static lattice triangular(int base_width, options option = options::standard);
     };
