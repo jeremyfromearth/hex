@@ -178,3 +178,20 @@ lattice layout::parallelogram(int width, int height, options direction) {
     }
     return result;
 }
+
+
+lattice layout::triangular(int base, options direction) {
+    lattice result;
+    int h = std::floor(base * 0.5);
+    int hh = std::floor(h * 0.5);
+    if((hh % 2) != 0) hh--;
+    for (int x = 0; x <= base; x++) {
+	for (int y = 0; y <= base - x; y++) {
+	    if(direction == options::standard)
+		result.emplace(cell(x, -x-y, y));
+	    if(direction == options::flipped)
+		result.emplace(cell(x, y, -x-y));
+	}
+    }
+    return result;  
+}

@@ -110,6 +110,6 @@ namespace hex {
 
             static lattice parallelogram(int width, int height, options direction = options::standard);
 
-            static lattice triangular(int base_width, options option = options::standard);
+            static lattice triangular(int base_width, options direction = options::standard);
     };
 }
