@@ -1,4 +1,2 @@
-# hexgrid
+# hex
 ## Hexagonal Grids for C++
-
-
