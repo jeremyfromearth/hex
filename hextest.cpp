@@ -1,10 +1,34 @@
 #include <assert.h>
 #include <iostream>
 #include <stdio.h>
+#include <unordered_set>
 
 #include "hex.h"
 
 using namespace hex;
+
+class grid : public std::unordered_set<cell> {
+    public:
+        void add(const cell & c) {
+            emplace(c);
+        }
+
+        void operator+=(grid& rhs);
+        bool operator==(const grid& rhs) const;
+};
+
+bool grid::operator==(const grid& rhs) const {
+    for(auto & c : rhs) {
+        if(!count(c)) return false;
+    }
+    return true;
+}
+
+void grid::operator+=(grid& rhs) {
+    //for(auto & c: rhs) insert(c);
+    cell c;
+    emplace(c);
+}
 
 int main() {
     std::cout << "-------------------- hextests --------------------" << std::endl;
@@ -21,6 +45,7 @@ int main() {
     cell c3(-2, 2, 0);
     cell c4(-3, 2, 1); 
 
+    grid g;
     std::cout << "cell() tests" << std::endl;
     std::cout << "c1: " << c1 << std::endl;
     std::cout << "c2: " << c2 << std::endl;
@@ -79,7 +104,12 @@ int main() {
     }
 
     // layouts
-    result = layout::hexagonal(3);
+    lattice l2;
+    l2 += layout::hexagonal(6);
+    assert(l2.count(cell(5, 1, -6)) > 0);
+
+    l2 -= layout::hexagonal(3);
+    assert(l2.count(cell(0, 0, 0)) == 0);
 
     return 0;
 }

@@ -131,6 +131,26 @@ cell lattice::get_neighbor(cell& c, uint8_t side) {
     return c + lattice::neighbors().at(side);
 }
 
+void lattice::operator+=(lattice& rhs) { 
+    insert(rhs.begin(), rhs.end());
+}
+
+void lattice::operator+=(const lattice& rhs) { 
+    insert(rhs.begin(), rhs.end());
+}
+
+void lattice::operator-=(lattice& rhs) {
+    for(auto & c : rhs) {
+        if(count(c) != 0) erase(c);
+    } 
+}
+
+void lattice::operator-=(const lattice& rhs){
+    for(auto & c : rhs) {
+        if(count(c) != 0) erase(c);
+    }
+}
+
 // ------------------------------------------------------------
 //
 // layout

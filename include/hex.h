@@ -48,11 +48,9 @@ namespace hex {
     private:
         int32_t x, y, z;
     };
-
 }
 
 std::ostream& operator<<(std::ostream& os, hex::cell const& c);
-
 
 // hash function for hex::cell
 // needs to be placed between cell and lattice classes
@@ -70,8 +68,6 @@ namespace std {
 
 
 namespace hex {
-    
-
     enum orientation {
         flat, 
         sharp
@@ -94,7 +90,21 @@ namespace hex {
             static std::unordered_set<cell> get_neighbors(cell& c);
 
             static cell get_neighbor(cell& c, uint8_t side);
-        };
+
+            lattice() {}
+
+            void do_it() {
+                insert(cell());
+            }
+
+            void operator+=(lattice& rhs);
+
+            void operator+=(const lattice& rhs);
+
+            void operator-=(lattice& rhs);
+
+            void operator-=(const lattice& rhs);
+    };
 
     class layout {
         public:

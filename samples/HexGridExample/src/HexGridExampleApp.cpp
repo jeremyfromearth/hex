@@ -30,6 +30,9 @@ void HexGridExampleApp::draw_hex(GLenum mode, cell c, float cell_radius, orienta
 
 void HexGridExampleApp::setup() {
     l = hex::layout::hexagonal(3);
+    l -= hex::layout::hexagonal(1);
+    //l = hex::layout::parallelogram(10, 20, layout::options::vertical);
+    //l = hex::layout::triangular(3, layout::options::flipped);
 }
 
 void HexGridExampleApp::draw() {
@@ -40,12 +43,12 @@ void HexGridExampleApp::draw() {
     
     gl::ScopedColor color1(0.25, 0.9, 0.95, 0.2);
     for(auto const& c : l) {
-        draw_hex(GL_TRIANGLE_FAN, c, 16, orientation::sharp);
+        draw_hex(GL_TRIANGLE_FAN, c, 16, orientation::flat);
     }
     
-    gl::ScopedColor color2(0.25, 0.9, 0.95, 1.0);
+    gl::ScopedColor color2(0.25, 0.9, 1.0, 1.0);
     for(auto const& c : l) {
-        draw_hex(GL_LINE_LOOP, c, 16, orientation::sharp);
+        draw_hex(GL_LINE_LOOP, c, 16, orientation::flat);
     }
 }
 
