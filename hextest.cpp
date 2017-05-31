@@ -104,12 +104,20 @@ int main() {
     }
 
     // layouts
-    lattice l2;
-    l2 += layout::hexagonal(6);
-    assert(l2.count(cell(5, 1, -6)) > 0);
+    // empty the lattice
+    l.clear();
 
-    l2 -= layout::hexagonal(3);
-    assert(l2.count(cell(0, 0, 0)) == 0);
+    // add cells for a hex layout or radius 6
+    l += layout::hexagonal(6);
+
+    // test for a cell on the perimeter
+    assert(l.count(cell(5, 1, -6)) > 0);
+
+    // remove a hex layout of radius 3
+    l -= layout::hexagonal(3);
+
+    // test that the center cell is removed
+    assert(l.count(cell(0, 0, 0)) == 0);
 
     return 0;
 }

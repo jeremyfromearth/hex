@@ -29,24 +29,27 @@ void HexGridExampleApp::draw_hex(GLenum mode, cell c, float cell_radius, orienta
 }
 
 void HexGridExampleApp::setup() {
-    l = hex::layout::hexagonal(3);
-    l -= hex::layout::hexagonal(1);
-    //l = hex::layout::parallelogram(10, 20, layout::options::vertical);
-    //l = hex::layout::triangular(3, layout::options::flipped);
+    l = hex::layout::hexagonal(6);
+    l -= hex::layout::hexagonal(3);
+    l += hex::layout::parallelogram(10, 10, layout::options::vertical);
+    l += hex::layout::parallelogram(10, 10, layout::options::standard);
+    l -= hex::layout::hexagonal(3);
+    l += hex::layout::hexagonal(1);
 }
 
 void HexGridExampleApp::draw() {
-    gl::clear(Color(0, 0, 0));
+    gl::clear(Color(1, 1, 1));
     gl::ScopedMatrices matrix;
     gl::translate(getWindowCenter());
     gl::ScopedBlendAlpha alpha;
-    
-    gl::ScopedColor color1(0.25, 0.9, 0.95, 0.2);
+    gl::ScopedColor color1(0.1, 0.1, 0.1, 1.0);
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_LINE_SMOOTH_HINT);
     for(auto const& c : l) {
         draw_hex(GL_TRIANGLE_FAN, c, 16, orientation::flat);
     }
     
-    gl::ScopedColor color2(0.25, 0.9, 1.0, 1.0);
+    gl::ScopedColor color2(1, 1, 1, 1.0);
     for(auto const& c : l) {
         draw_hex(GL_LINE_LOOP, c, 16, orientation::flat);
     }
