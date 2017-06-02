@@ -1,6 +1,8 @@
-# hex
-## Hexagons for C++
+# __HEX__
+## Hexagonal grids for C++
+This library provides only hexagon related computations and is renderer agnostic. The examples below have been rendered using [Cinder](http://libcinder.org).
 
+### Creation, addition & subtraction
 ```
 l = hex::layout::hexagonal(6);
 ```
@@ -25,3 +27,12 @@ l -= hex::layout::hexagonal(3);
 l += hex::layout::hexagonal(1);
 ```
 ![demo 6](images/demo-6.png)
+
+### Coordinate space conversions
+
+```
+vec2 v = vec2(e.getPos()) - getWindowCenter();
+hex::point p(v.x, v.y);
+hover = hex::lattice::point_to_cell(p, orientation, radius);
+```
+![demo 7](images/pixel-to-hex-and-neighbors.gif)
