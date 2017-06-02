@@ -34,7 +34,6 @@ cell cell::round(float x, float y, float z) {
     int xr = std::round(x);
     int yr = std::round(y);
     int zr = std::round(z);
-
     int xd = std::abs(x - xr);
     int yd = std::abs(y - yr);
     int zd = std::abs(z - zr);
@@ -103,18 +102,17 @@ point lattice::cell_to_point(cell& c, orientation o, float r) {
 }
 
 cell lattice::point_to_cell(point& p, orientation o, float r) {
-    int x = 0;
-    int y = 0;
-    
+    float x = 0;
+    float y = 0;
     if(o == orientation::flat) {
    	x = p.x * 2/3 / r;
         y = (-p.x / 3 + sqrt(3)/3 * p.y) / r; 
     } else {
-	x = (p.x * sqrt(3)/3 - y / 3) / r;
+	x = (p.x * sqrt(3)/3 - p.y / 3) / r;
         y = p.y * 2/3 / r;
     }
 
-    return {x, y, -x-y};
+    return cell::round(x, y, -x-y);
 }
 
 std::unordered_set<cell> lattice::get_neighbors(cell& c) {

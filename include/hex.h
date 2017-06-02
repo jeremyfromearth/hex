@@ -14,6 +14,8 @@ namespace hex {
     struct point {
         float x;
         float y;
+        
+        point(float _x, float _y) : x(_x), y(_y) {}
     };
 
     class cell  { 
