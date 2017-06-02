@@ -33,7 +33,7 @@ void HexGridExampleApp::draw_hex(GLenum mode, hex::cell c, float cell_radius, he
 
 void HexGridExampleApp::setup() {
     radius = 16;
-    orientation = hex::orientation::sharp;
+    orientation = hex::orientation::flat;
     
     l = hex::layout::hexagonal(6);
     l -= hex::layout::hexagonal(3);
@@ -64,6 +64,14 @@ void HexGridExampleApp::draw() {
     if(l.count(hover)) {
         gl::ScopedColor color3(1, 0, 0);
         draw_hex(GL_TRIANGLE_FAN, hover, radius, orientation);
+    }
+    
+    gl::ScopedColor color3(0.4, 0, 0);
+    for(auto & c : hex::lattice::neighbors()) {
+        auto n = c + hover;
+        if(l.count(n)) {
+            draw_hex(GL_TRIANGLE_FAN, n, radius, orientation);
+        }
     }
     
     gl::ScopedColor color2(1, 1, 1, 1.0);
