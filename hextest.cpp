@@ -119,5 +119,16 @@ int main() {
     // test that the center cell is removed
     assert(l.count(cell(0, 0, 0)) == 0);
 
+    // test += 
+    cell c6(1, 0, -1);
+    cell c7(-2, 0, 2);
+    cell c8(-1, 0, 1);
+    c6 += c7;
+    assert(c6 == c8);
+
+    // test -=
+    c6 -= c5;
+    assert(c6 == cell(0, 0, 0));
+
     return 0;
 }

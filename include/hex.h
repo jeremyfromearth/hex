@@ -33,7 +33,11 @@ namespace hex {
         
         cell operator+(const cell& rhs) const;
 
+        void operator+=(const cell& rhs);
+
         cell operator-(const cell& rhs) const;
+
+        void operator-=(const cell& rhs);
 
         cell operator*(float scalar) const;
 

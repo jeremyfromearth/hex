@@ -60,6 +60,18 @@ cell cell::operator+(const cell& rhs) const {
     return cell(x + rhs.get_x(), y + rhs.get_y(), z + rhs.get_z());
 }
 
+void cell::operator+=(const cell& rhs) {
+    x += rhs.get_x();
+    y += rhs.get_y();
+    z += rhs.get_z();
+}
+
+void cell::operator-=(const cell& rhs) {
+    x -= rhs.get_x();
+    y -= rhs.get_y();
+    z -= rhs.get_z();
+}
+
 cell cell::operator-(const cell& rhs) const {
     return cell(x - rhs.get_x(), y - rhs.get_y(), z - rhs.get_z());
 }
